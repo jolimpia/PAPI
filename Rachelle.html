@@ -1,0 +1,342 @@
+<html>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&display=swap");
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: linear-gradient(213deg,
+                rgba(222, 191, 244, 1) 0%,
+                rgba(255, 178, 178, 1) 50%,
+                rgba(255, 215, 158, 1) 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        height: 100vh;
+        width: 100vw;
+        overflow: dden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    canvas#bg-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+    }
+
+    /* Card that triggers the letter */
+    #card {
+        width: 0;
+        height: 0;
+        border-top: 100px solid #e8f4f8;
+        border-right: 170px solid #c1e1ec;
+        border-bottom: 100px solid #d4ebf2;
+        border-left: 170px solid #c1e1ec;
+        box-shadow: 10px 10px 5px #3793b2;
+        position: relative;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    /* Floating hearts */
+    .heart,
+    .heart1,
+    .heart2,
+    .heart3,
+    .heart4 {
+        width: 32px;
+        height: 32px;
+        background-color: #ff1414;
+        transform: translate(-50%, -50%) rotate(45deg);
+        position: absolute;
+        top: 0;
+        left: 50%;
+    }
+
+    .heart:before,
+    .heart:after,
+    .heart1:before,
+    .heart1:after,
+    .heart2:before,
+    .heart2:after,
+    .heart3:before,
+    .heart3:after,
+    .heart4:before,
+    .heart4:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #ff1414;
+        border-radius: 50%;
+    }
+
+    .heart:before {
+        transform: translateY(-50%);
+    }
+
+    .heart:after {
+        transform: translateX(-50%);
+    }
+
+    .heart1:before,
+    .heart2:before,
+    .heart3:before,
+    .heart4:before {
+        transform: translateY(-50%);
+    }
+
+    .heart1:after,
+    .heart2:after,
+    .heart3:after,
+    .heart4:after {
+        transform: translateX(-50%);
+    }
+
+    /* Heart Animations */
+    .heart {
+        animation: heartbeat 1.4s infinite;
+    }
+
+    .heart1 {
+        top: -60px;
+        animation: heart1 2.5s ease-out 1s infinite;
+    }
+
+    .heart2 {
+        top: -120px;
+        animation: heart2 4s ease-out 1s infinite;
+    }
+
+    .heart3 {
+        top: -180px;
+        animation: heart3 2s ease-out 1s infinite;
+    }
+
+    .heart4 {
+        top: -240px;
+        animation: heart4 2.3s ease-out 1s infinite;
+    }
+
+    @keyframes heartbeat {
+
+        0%,
+        25%,
+        100% {
+            transform: translate(-50%, -50%) rotate(45deg) scale(1);
+        }
+
+        30%,
+        70% {
+            transform: translate(-50%, -50%) rotate(45deg) scale(1.4);
+        }
+
+        50% {
+            transform: translate(-50%, -50%) rotate(45deg) scale(1.2);
+        }
+    }
+
+    @keyframes heart1 {
+        0% {
+            transform: translateY(-200%) translateX(0) scale(0.25) rotate(45deg);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(-400%) translateX(0) scale(1) rotate(50deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes heart2 {
+        0% {
+            transform: translateY(-300%) translateX(-100%) scale(0.25) rotate(-20deg);
+            opacity: 0.2;
+        }
+
+        100% {
+            transform: translateY(-500%) translateX(-10%) scale(1) rotate(45deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes heart3 {
+        0% {
+            transform: translateY(-430%) translateX(-100%) scale(0.25) rotate(20deg);
+            opacity: 0.2;
+        }
+
+        100% {
+            transform: translateY(-650%) translateX(-10%) scale(1) rotate(60deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes heart4 {
+        0% {
+            transform: translateY(-450%) translateX(-100%) scale(0.25) rotate(45deg);
+            opacity: 0.2;
+        }
+
+        100% {
+            transform: translateY(-750%) translateX(-10%) scale(1) rotate(80deg);
+            opacity: 0;
+        }
+    }
+
+    /* Farewell Letter Styling */
+    .letter-container {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 600px;
+        width: 90%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(4px);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        z-index: 10;
+        animation: fadeIn 1s ease;
+    }
+
+    .letter-container h1 {
+        color: #ea5513;
+        font-size: 2.5rem;
+        animation: slideDown 1s ease;
+    }
+
+    .letter-container .message {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        color: #333;
+        animation: fadeIn 2s ease;
+    }
+
+    .letter-container .signature {
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.5rem;
+        margin-top: 30px;
+        color: #383735;
+        animation: fadeIn 2.5s ease;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        color: #999;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .close-button:hover {
+        color: #ea5513;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(-30px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .instruction {
+        margin-top: 15px;
+        color: #ffffff;
+        font-size: 1.2rem;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        animation: fadeIn 2s ease;
+        text-align: center;
+    }
+</style>
+
+<body><canvas id="bg-canvas"></canvas>
+    <div id="card-container">
+        <div id="card">
+            <div class="heart"></div>
+            <div class="heart1"></div>
+            <div class="heart2"></div>
+            <div class="heart3"></div>
+            <div class="heart4"></div>
+        </div>
+        <p class="instruction">Click ❤️ to open the letter</p>
+    </div>
+    <div id="farewell-letter" class="letter-container"><button class="close-button" id="close-btn">&times;
+        </button>
+        <h1>Rachelle</h1>
+        <p class="message">
+            Can you believe it's been years since we started this journey at PAPI? From those early days of testing and documenting SIS, SCS, BRS like we were
+            building a whole new world, it's been such a journey.
+        </p>
+
+        <p class="message">
+            We started with a group of people , all figuring things out together , and now, it feels like we're just a
+            few left from that original ones. It's bittersweet, but it also makes me proud. We made it through the messy
+            beginnings, the long hours, the endless revisions, and somehow, we stayed.
+        </p>
+
+        <p class="message">
+            Even though you're now in the Planning Group (legit na!), I still see the same Kumars I worked within IT ,
+            reliable, sharp, kalog, and always down to help even when things got crazy. You deserve everything you're achieving, 
+            and I hope you never forget how strong and capable you truly are (laban lang!).
+        </p>
+
+        <p class="message">
+            Thank you for all the laughs, the rants, the random chats, and the quiet understanding whenever things got
+            overwhelming. You've always been more than just a workmate to me , you've been a real friend.
+        </p>
+
+        <p class="message">
+            I'll miss our Kumars moments, but I know you'll continue to shine wherever you are. Keep doing amazing
+            things, and please don't change , stay grounded, kind, and true to who you are.
+        </p>
+
+        <p class="message">
+            ‘Til our next chikahan , take care always, Kumars!<br>
+        </p>
+
+        <p class="signature">– Jolina/Jolens/Jols</p>
+    </div>
+</body>
+<script>
+    document.getElementById('card').addEventListener('click', function () {
+        document.getElementById('farewell-letter').style.display = 'block';
+    });
+
+    document.getElementById('close-btn').addEventListener('click', function () {
+        document.getElementById('farewell-letter').style.display = 'none';
+    });
+</script>
+
+</html>
